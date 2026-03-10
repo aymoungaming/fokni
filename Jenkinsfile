@@ -17,15 +17,20 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing Node.js backend packages...'
-                // Now Jenkins will understand this command!
-                sh 'npm install' 
+                // Tell Jenkins to go into the correct folder first
+                dir('Firma-main/backend') {
+                    sh 'npm install' 
+                }
             }
         }
 
         stage('Security Check') {
             steps {
                 echo 'Running a quick check for vulnerable packages...'
-                sh 'npm audit --audit-level=high || true'
+                // We also need to be in that folder for npm audit!
+                dir('Firma-main/backend') {
+                    sh 'npm audit --audit-level=high || true'
+                }
             }
         }
 
