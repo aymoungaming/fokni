@@ -18,7 +18,7 @@ pipeline {
             steps {
                 echo 'Installing Node.js backend packages...'
                 // Tell Jenkins to go into the correct folder first
-                dir('Firma-main/backend') {
+                dir('Firma-main/Back') {
                     sh 'npm install' 
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Running a quick check for vulnerable packages...'
                 // We also need to be in that folder for npm audit!
-                dir('Firma-main/backend') {
+                dir('Firma-main/Back') {
                     sh 'npm audit --audit-level=high || true'
                 }
             }
