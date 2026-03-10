@@ -1,0 +1,134 @@
+/* --- Variables (Mêmes que l'accueil) --- */
+:root {
+    --primary-green: #2ecc71;
+    --dark-green: #27ae60;
+    --text-dark: #333;
+    --text-light: #666;
+    --bg-overlay: rgba(0, 0, 0, 0.6); /* Fond sombre transparent */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    /* Image de fond agricole */
+    background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1625246333195-f8196ba00896?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex; /* Flexbox pour centrer le formulaire */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- Conteneur Carte --- */
+.signup-card {
+    background-color: white;
+    width: 100%;
+    max-width: 500px; /* Largeur maximale du formulaire */
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* --- En-tête --- */
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card-header h2 {
+    color: var(--dark-green);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-header p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* --- Formulaire --- */
+.form-row {
+    display: flex;
+    gap: 15px; /* Espace entre Nom et Prénom */
+}
+
+/* Si l'écran est petit, on empile Nom et Prénom */
+@media (max-width: 480px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.input-group {
+    margin-bottom: 1.2rem;
+    width: 100%;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-green);
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.2);
+}
+
+/* --- Bouton Soumettre --- */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+/* --- Footer (Liens) --- */
+.card-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card-footer a {
+    color: var(--dark-green);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse - Firma</title>
+    <link rel="stylesheet" href="recom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-leaf"></i> Firma
+        </div>
+        <ul class="nav-links">
+            <li><a href="market.html">Marché</a></li>
+            <li><a href="#" class="active">Analyse</a></li>
+            <li><a href="home.html">Accueil</a></li>
+        </ul>
+        <div class="user-actions">
+            <span class="user-name">Bonjour</span>
+            <a href="index.html" class="btn-logout"><i class="fa-solid fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+
+        <header class="page-header">
+            <h1><i class="fa-solid fa-chart-line"></i> Analyse de vos Terres</h1>
+            <p>Remplissez les données de vos sols pour obtenir des conseils personnalisés par notre IA.</p>
+        </header>
+
+        <section class="data-input-section">
+            
+            <div class="card form-card">
+                <h3>1. Composition du Sol</h3>
+                <p class="hint">Entrez les valeurs issues de vos analyses laboratoire.</p>
+                
+                <div class="table-responsive">
+                    <table class="soil-table">
+                        <thead>
+                            <tr>
+                                <th>Zone / Parcelle</th>
+                                <th>Azote (N) <small>mg/kg</small></th>
+                                <th>Potassium (K) <small>mg/kg</small></th>
+                                <th>Calcium (Ca) <small>mg/kg</small></th>
+                                <th>pH <small>0-14</small></th>
+                                <th>Salinité <small>dS/m</small></th>
+                                <th>Granulométrie</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" value="Zone Nord - A"></td>
+                                <td><input type="number" placeholder="ex: 1.5"></td>
+                                <td><input type="number" placeholder="ex: 200"></td>
+                                <td><input type="number" placeholder="ex: 1500"></td>
+                                <td><input type="number" step="0.1" placeholder="ex: 7.2"></td>
+                                <td><input type="number" step="0.1" placeholder="ex: 1.1"></td>
+                                <td>
+                                    <select>
+                                        <option>Argileux</option>
+                                        <option>Sableux</option>
+                                        <option>Limoneux</option>
+                                    </select>
+                                </td>
+                                <td><button class="btn-delete"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" placeholder="Nom zone..."></td>
+                                <td><input type="number"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number"></td>
+                                <td><input type="number"></td>
+                                <td>
+                                    <select>
+                                        <option>Argileux</option>
+                                        <option>Sableux</option>
+                                        <option>Limoneux</option>
+                                    </select>
+                                </td>
+                                <td><button class="btn-delete"><i class="fa-solid fa-trash"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn-add-row"><i class="fa-solid fa-plus"></i> Ajouter une zone</button>
+            </div>
+
+            <div class="card form-card">
+                <h3>2. Données Météorologiques</h3>
+                <div class="weather-inputs">
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-temperature-high"></i> Température Moyenne (°C)</label>
+                        <input type="number" placeholder="ex: 24">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-cloud-rain"></i> Précipitations (mm/an)</label>
+                        <input type="number" placeholder="ex: 400">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <button class="btn-analyze">Lancer l'Analyse IA <i class="fa-solid fa-microchip"></i></button>
+            </div>
+
+        </section>
+
+        <hr class="divider">
+
+        <section class="results-section">
+            
+            <div class="result-column">
+                <div class="card result-card">
+                    <div class="card-title">
+                        <h2><i class="fa-solid fa-seedling"></i> Cultures Recommandées</h2>
+                    </div>
+                    <div class="recommendation-list">
+                        <div class="rec-item">
+                            <div class="rec-score high">98% Compatible</div>
+                            <h4>Blé Dur</h4>
+                            <p>Parfait pour votre zone argileuse et pH 7.2.</p>
+                        </div>
+                        <div class="rec-item">
+                            <div class="rec-score medium">75% Compatible</div>
+                            <h4>Orge</h4>
+                            <p>Bon potentiel, mais nécessite un apport en Azote.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-column">
+                <div class="card result-card">
+                    <div class="card-title">
+                        <h2><i class="fa-solid fa-calculator"></i> Test de Rentabilité</h2>
+                    </div>
+                    
+                    <div class="simulator-box">
+                        <label>Quelle plante voulez-vous cultiver ?</label>
+                        <div class="sim-input">
+                            <input type="text" placeholder="ex: Tomates">
+                            <button>Vérifier</button>
+                        </div>
+                    </div>
+
+                    <div class="simulation-result">
+                        <h4>Résultat pour : <span class="highlight">Tomates</span></h4>
+                        <div class="status bad"><i class="fa-solid fa-exclamation-triangle"></i> Risqué</div>
+                        <p class="reason">Votre sol est trop salin (1.1 dS/m) pour la tomate sans traitement.</p>
+                        
+                        <div class="advice-box">
+                            <h5>Bonnes pratiques requises :</h5>
+                            <ul>
+                                <li><i class="fa-solid fa-check"></i> Ajouter du Calcium pour contrer la salinité.</li>
+                                <li><i class="fa-solid fa-check"></i> Augmenter l'irrigation de 20%.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</body>
+<script>
+    // Vérifier si l'utilisateur est connecté
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user) {
+        // S'il n'est pas connecté, on le renvoie à l'accueil
+        window.location.href = 'home.html';
+    } else {
+        // Mettre à jour le nom dans la barre de navigation
+        document.querySelector('.user-name').textContent = "Bonjour, " + user.nom;
+    }
+
+    // Gérer la déconnexion
+    document.querySelector('.btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user'); // On supprime les infos
+        window.location.href = 'home.html';
+    });
+</script>
+</html>

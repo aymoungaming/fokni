@@ -1,0 +1,14 @@
+# Dépendances (ignore tous les dossiers node_modules partout)
+Back/node_modules/
+
+# Variables d'environnement (TRÈS IMPORTANT pour la sécurité)
+.env
+
+# Fichiers systèmes inutiles
+.DS_Store
+Thumbs.db
+
+# Logs (optionnel mais utile)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Engrais - Firma</title>
+    <link rel="stylesheet" href="detail.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="market.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour au Marketplace</a>
+    </nav>
+
+    <div class="product-container">
+        
+        <div class="left-column">
+            <div class="image-wrapper">
+                <span class="category-badge" id="detail-category">Chargement...</span>
+                <img src="" alt="Image produit" class="product-img" id="detail-image">
+            </div>
+            
+            <div class="location-card">
+                <h3><i class="fas fa-map-marker-alt"></i> Localisation</h3>
+                <p id="detail-address">Chargement...</p>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <h1 class="product-title" id="detail-title">Chargement du produit...</h1>
+            
+            <div class="product-price">
+                <span class="price-value" id="detail-price">--</span> 
+                <span class="currency">TND</span> 
+                <span class="unit" id="detail-unit">/ --</span>
+            </div>
+
+            <div class="description-section">
+                <h3>Description</h3>
+                <p id="detail-description">Veuillez patienter...</p>
+            </div>
+
+            <div class="purchase-box" id="purchaseBox" style="display:none;"> <h3>Configurer votre commande</h3>
+                
+                <div class="slider-container">
+                    <label>Quantité : <span id="selectedQty" style="color:#2ecc71; font-weight:bold;">1</span></label>
+                    <input type="range" min="1" max="50" value="1" class="slider" id="qtySlider" style="width:100%;">
+                </div>
+
+                <div class="total-calculation" style="margin: 20px 0; font-size: 1.2rem;">
+                    <span>Total :</span>
+                    <span class="total-price" id="totalPrice" style="font-weight:bold;">-- TND</span>
+                </div>
+
+                <button onclick="goToPayment()" class="btn-buy" style="background:#27ae60; color:white; padding:15px; width:100%; border:none; border-radius:8px; cursor:pointer;">
+                    Acheter maintenant <i class="fas fa-shopping-cart"></i>
+                </button>
+            </div>
+            </div>
+    </div>
+
+    <script>
+        // Vérifier si l'utilisateur est connecté
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (!user) {
+            // S'il n'est pas connecté, on le renvoie à l'accueil
+            window.location.href = 'home.html';
+        }
+        // --- 1. Variables Globales ---
+        let currentUnitPrice = 0; 
+        const slider = document.getElementById('qtySlider');
+        const selectedQtyElement = document.getElementById('selectedQty');
+        const totalPriceElement = document.getElementById('totalPrice');
+        const purchaseBox = document.getElementById('purchaseBox');
+
+        // --- 2. Récupérer l'ID et Charger les données ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        
+        // Adaptez l'URL si vous êtes en ligne ou en local
+        const API_URL = `http://localhost:3000/api/products/${productId}`;
+
+        async function loadProductDetails() {
+            if (!productId) {
+                alert("Erreur : Aucun produit sélectionné.");
+                window.location.href = "market.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error("Produit introuvable");
+                
+                const product = await response.json();
+
+                // Remplir le HTML (DOM)
+                document.getElementById('detail-title').textContent = product.title;
+                document.getElementById('detail-description').textContent = product.description;
+                document.getElementById('detail-price').textContent = product.price;
+                document.getElementById('detail-unit').textContent = "/ " + product.unit;
+                document.getElementById('detail-category').textContent = product.category;
+                document.getElementById('detail-address').textContent = product.address;
+                
+                // Image
+                if (product.image) {
+                    document.getElementById('detail-image').src = product.image;
+                } else {
+                    document.getElementById('detail-image').src = "https://via.placeholder.com/400";
+                }
+
+                // Initialiser le prix pour le calcul
+                currentUnitPrice = parseFloat(product.price);
+                
+                // Afficher la boîte d'achat maintenant que les données sont là
+                purchaseBox.style.display = "block";
+                
+                // Lancer un premier calcul
+                updatePrice(); 
+
+            } catch (error) {
+                console.error(error);
+                document.querySelector('.product-container').innerHTML = "<h2 style='text-align:center; margin-top:50px;'>Erreur : Produit introuvable ou serveur éteint.</h2>";
+            }
+        }
+
+        // --- 3. Logique du Slider (Calculateur) ---
+        function updatePrice() {
+            const quantity = slider.value;
+            const total = quantity * currentUnitPrice;
+            
+            selectedQtyElement.textContent = quantity;
+            totalPriceElement.textContent = total.toFixed(2) + " TND";
+        }
+
+        // Écouteur d'événement sur le slider
+        slider.addEventListener('input', updatePrice);
+
+        // --- 4. Redirection vers Paiement ---
+        function goToPayment() {
+            const quantity = slider.value;
+            const total = quantity * currentUnitPrice;
+            
+            // J'ai corrigé 'paiem.html' en 'payment.html' (selon vos fichiers précédents)
+            // Si votre fichier s'appelle vraiment paiem.html, changez-le ici.
+            window.location.href = `paiem.html?type=product&price=${total}&qty=${quantity}`;
+        }
+
+        // Lancer le chargement
+        loadProductDetails();
+    </script>
+</body>
+</html>

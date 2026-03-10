@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publier une annonce - Firma</title>
+    <link rel="stylesheet" href="post.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <header class="form-header">
+            <a href="market.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour</a>
+            <h1>Vendre un produit</h1>
+            <p>Remplissez ce formulaire pour mettre en vente vos matières organiques.</p>
+        </header>
+
+        <form id="createListingForm">
+            
+            <div class="form-group">
+                <label for="category">Type de produit</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Choisir une catégorie...</option>
+                    <option value="fumier">Fumier</option>
+                    <option value="liquide">Déchets Liquides / Purin</option>
+                    <option value="compost">Compost</option>
+                    <option value="cendres">Cendres</option>
+                    <option value="biomasse">Biomasse végétale</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Nom de l'article</label>
+                <input type="text" id="title" name="title" placeholder="Ex: Fumier de cheval bio - 5 Tonnes" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description détaillée</label>
+                <textarea id="description" name="description" rows="4" placeholder="Décrivez la qualité, l'origine et la composition..." required></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half-width">
+                    <label for="price">Prix par unité (TND)</label>
+                    <input type="number" id="price" name="price" placeholder="Ex: 50" required>
+                </div>
+                <div class="form-group half-width">
+                    <label for="unit">Unité de mesure</label>
+                    <select id="unit" name="unit" required>
+                        <option value="tonne">Par Tonne</option>
+                        <option value="kg">Par Kg</option>
+                        <option value="m3">Par Mètre cube (m³)</option>
+                        <option value="bidon">Par Bidon (20L)</option>
+                        <option value="remorque">Par Remorque</option>
+                    </select>
+                </div>
+            </div>
+
+            <!--<div class="form-group">
+                <label>Lieu de vente (Retrait)</label>
+                <div class="map-placeholder" id="map">
+                    <div class="map-instruction">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Cliquez pour positionner le lieu exact</p>
+                    </div>
+                </div>
+                <input type="text" id="address" name="address" placeholder="L'adresse s'affichera ici..." readonly>
+            </div>-->
+
+            <div class="form-group">
+                <label>Photo du produit</label>
+                <div class="file-upload-wrapper">
+                    <input type="file" id="productImage" name="productImage" accept="image/*" onchange="previewImage(event)">
+                    <div class="upload-box">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Glissez une photo ou cliquez pour parcourir</p>
+                    </div>
+                </div>
+                <div id="imagePreview" class="image-preview" style="display: none;">
+                    <img id="previewImg" src="" alt="Aperçu">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Publier l'annonce</button>
+        </form>
+    </div>
+
+    <script>
+        // Petit script pour prévisualiser l'image avant l'envoi
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('previewImg');
+                output.src = reader.result;
+                document.getElementById('imagePreview').style.display = 'block';
+                document.querySelector('.upload-box').style.display = 'none';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+<script>
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user) {
+        // S'il n'est pas connecté, on le renvoie à l'accueil
+        window.location.href = 'home.html';
+    }
+    const form = document.getElementById('createListingForm');
+    
+    // Fonction pour convertir l'image en Base64 (Texte)
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Empêche le rechargement de la page
+
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.textContent = "Publication en cours...";
+        submitBtn.disabled = true;
+
+        // Récupération des données
+        const formData = {
+            category: document.getElementById('category').value,
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            price: document.getElementById('price').value,
+            unit: document.getElementById('unit').value,
+            //address: document.getElementById('address').value || "Non spécifié",
+            image: "" // On va remplir ça juste après
+        };
+
+        // Gestion de l'image
+        const fileInput = document.getElementById('productImage');
+        if (fileInput.files.length > 0) {
+            try {
+                const base64Info = await convertBase64(fileInput.files[0]);
+                formData.image = base64Info;
+            } catch (error) {
+                alert("Erreur lors du traitement de l'image");
+                return;
+            }
+        }
+
+        // Envoi au Backend
+        // ⚠️ IMPORTANT : Remplacez l'URL ci-dessous par votre lien Render ou Ngrok
+        const API_URL = "http://localhost:3000/api/products";
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                alert("Félicitations ! Votre annonce est en ligne.");
+                window.location.href = "market.html"; // Redirection vers la liste des produits
+            } else {
+                alert("Erreur serveur. Veuillez réessayer.");
+            }
+        } catch (error) {
+            console.error("Erreur:", error);
+            alert("Impossible de contacter le serveur.");
+        } finally {
+            submitBtn.textContent = "Publier l'annonce";
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+</html>

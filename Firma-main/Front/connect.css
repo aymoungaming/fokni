@@ -1,0 +1,158 @@
+/* --- Variables --- */
+:root {
+    --primary-green: #2ecc71;
+    --dark-green: #27ae60;
+    --text-dark: #333;
+    --text-light: #666;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    /* Image de fond différente (ex: blé ou tracteur) pour varier légèrement */
+    background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- Carte de Connexion --- */
+.login-card {
+    background-color: white;
+    width: 100%;
+    max-width: 400px; /* Plus étroit que l'inscription car moins de champs */
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* --- En-tête --- */
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card-header h2 {
+    color: var(--dark-green);
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-header p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* --- Champs de saisie avec icônes --- */
+.input-group {
+    margin-bottom: 1.2rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper .icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 12px 12px 40px; /* Padding à gauche pour laisser place à l'icône */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-wrapper input:focus {
+    border-color: var(--primary-green);
+    outline: none;
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.2);
+}
+
+.input-wrapper input:focus + .icon {
+    color: var(--primary-green);
+}
+
+/* --- Lien "Mot de passe oublié" --- */
+.forgot-password {
+    text-align: right;
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password a {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    color: var(--dark-green);
+    text-decoration: underline;
+}
+
+/* --- Bouton --- */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+/* --- Footer --- */
+.card-footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+
+.card-footer p {
+    margin-bottom: 0.5rem;
+}
+
+.card-footer a {
+    color: var(--dark-green);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}

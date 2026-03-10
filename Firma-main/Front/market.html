@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marché - Firma</title>
+    <link rel="stylesheet" href="market.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-leaf"></i> Firma
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Marché</a></li>
+            <li><a href="recom.html">Analyse</a></li> 
+            <li><a href="home.html">Accueil</a></li>
+        </ul>
+        <div class="user-actions">
+            <span class="user-name">Bonjour</span>
+            <a href="home.html" class="btn-logout"><i class="fa-solid fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <header class="market-header">
+        <div class="header-content">
+            <h1>Marché des Engrais Organiques</h1>
+            <p>Achetez local ou vendez vos surplus à d'autres agriculteurs.</p>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Rechercher un produit (ex: Fumier de cheval)...">
+                <button><i class="fa-solid fa-search"></i></button>
+            </div>
+            <a href="post.html" class="fab-btn">
+                <i class="fas fa-plus"></i> Vendre un produit
+            </a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <aside class="filters">
+            <h3>Filtres</h3>
+            
+            <div class="filter-group">
+                <h4>Type d'engrais</h4>
+                <label><input type="checkbox"> Fumier (Animal)</label>
+                <label><input type="checkbox"> Compost (Végétal)</label>
+                <label><input type="checkbox"> Engrais Liquide</label>
+                <label><input type="checkbox"> Cendres / Autres</label>
+            </div>
+
+            <div class="filter-group">
+                <h4>Localisation</h4>
+                <select>
+                    <option value="">Toutes les régions</option>
+                    <option value="nord">Zone Nord</option>
+                    <option value="centre">Zone Centre</option>
+                    <option value="sud">Zone Sud</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <h4>Prix max (par Tonne/L)</h4>
+                <input type="range" min="0" max="500">
+            </div>
+        </aside>
+            
+        <section class="marketplace-grid" id="products-container">
+            <p style="text-align:center; width:100%;">Chargement des annonces...</p>
+        </section>
+
+    </div>
+</body>
+<script>
+    // Vérifier si l'utilisateur est connecté
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user) {
+        // S'il n'est pas connecté, on le renvoie à l'accueil
+        window.location.href = 'home.html';
+    } else {
+        // Mettre à jour le nom dans la barre de navigation
+        document.querySelector('.user-name').textContent = "Bonjour, " + user.nom;
+    }
+
+    // Gérer la déconnexion
+    document.querySelector('.btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user'); // On supprime les infos
+        window.location.href = 'home.html';
+    });
+
+    // URL de votre backend (localhost ou Render)
+    const API_URL = "http://localhost:3000/api/products"; 
+
+    // Fonction pour récupérer et afficher les produits
+    async function fetchProducts() {
+        const container = document.getElementById('products-container');
+        
+        try {
+            const response = await fetch(API_URL);
+            const products = await response.json();
+
+            // Nettoyer le message de chargement
+            container.innerHTML = '';
+
+            if (products.length === 0) {
+                container.innerHTML = '<p>Aucune annonce pour le moment. Soyez le premier à publier !</p>';
+                return;
+            }
+
+            // Boucle pour créer une carte pour chaque produit
+            products.forEach(product => {
+                // On crée le HTML de la carte dynamiquement
+                const productCard = `
+                    <div class="product-card">
+                        <div class="card-image">
+                            <span class="category-tag">${product.category}</span>
+                            <img src="${product.image}" alt="${product.title}">
+                        </div>
+                        <div class="card-details">
+                            <h3>${product.title}</h3>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> ${product.address}</p>
+                            <div class="price-row">
+                                <span class="price">${product.price} TND</span>
+                                <span class="unit">/ ${product.unit}</span>
+                            </div>
+                            ${product.description} 
+                            <a href="detail.html?id=${product._id}" class="btn-details">Voir détails</a>
+                        </div>
+                    </div>
+                `;
+                
+                // On ajoute la carte au conteneur
+                container.innerHTML += productCard;
+            });
+
+        } catch (error) {
+            console.error("Erreur:", error);
+            container.innerHTML = '<p style="color:red">Erreur lors du chargement des produits. Vérifiez que le serveur est allumé.</p>';
+        }
+    }
+
+    // Lancer la fonction au chargement de la page
+    document.addEventListener('DOMContentLoaded', fetchProducts);
+</script>
+</html>

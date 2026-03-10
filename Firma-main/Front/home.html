@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firma - Optimisez vos cultures</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-leaf"></i> Firma
+        </div>
+        <div class="nav-buttons">
+            <a href="connect.html">
+                <button class="btn-login">Se connecter</button>
+            </a>
+            <a href="creation.html">
+                <button class="btn-signup">Créer un compte</button>
+            </a>
+            <a href="prem.html">
+                <button class="btn">Version Premium</button>
+            </a>    
+        </div>
+        <div class="user-actions">
+            <span class="user-name">Bonjour</span>
+            <a href="home.html" class="btn-logout"><i class="fa-solid fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Cultivez intelligemment, récoltez plus.</h1>
+            <p>La plateforme tout-en-un pour l'échange d'engrais et l'analyse intelligente de vos sols.</p>
+            <a href="#features" class="btn-cta">Découvrir nos outils</a>
+        </div>
+    </header>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>Nos Services</h2>
+            <p class="subtitle">Connectez-vous pour accéder à nos outils dédiés aux agriculteurs.</p>
+            
+            <div class="cards-wrapper">
+                
+                <div class="card">
+                    <div class="card-icon marketplace-icon">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3>Marketplace Engrais</h3>
+                    <p>
+                        Achetez ou vendez des <strong>engrais organiques</strong> directement entre agriculteurs. 
+                        Trouvez les meilleurs produits à proximité pour enrichir votre terre à moindre coût.
+                    </p>
+                    <ul class="card-details">
+                        <li><i class="fa-solid fa-check"></i> Vente directe</li>
+                        <li><i class="fa-solid fa-check"></i> Produits organiques certifiés</li>
+                    </ul>
+                    <a href="market.html">
+                        <button class="btn-card1">Se connecter pour échanger</button>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon analysis-icon">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3>Analyses & Recommandations</h3>
+                    <p>
+                        Entrez les données de votre sol (NPK, pH, Salinité) et la météo. 
+                        Notre algorithme vous suggère les <strong>cultures les plus rentables</strong> ou analyse la viabilité de votre choix.
+                    </p>
+                    <ul class="card-details">
+                        <li><i class="fa-solid fa-check"></i> Analyse par zone de sol</li>
+                        <li><i class="fa-solid fa-check"></i> Conseils de rentabilité</li>
+                    </ul>
+                    <a href="recom.html">
+                        <button class="btn-card2">Se connecter pour analyser</button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Firma. Tous droits réservés. | <a href="#">Mentions Légales</a></p>
+    </footer>
+
+</body>
+<script>
+    // Vérifier si l'utilisateur est connecté
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user) {
+        // S'il n'est pas connecté, on le renvoie à l'accueil
+    } else {
+        // Mettre à jour le nom dans la barre de navigation
+        document.querySelector('.user-name').textContent = "Bonjour, " + user.nom;
+        document.querySelector('.btn-card1').textContent = "Accéder au Marketplace";
+        document.querySelector('.btn-card2').textContent = "Accéder à l'Analyse";
+    }
+
+    // Gérer la déconnexion
+    document.querySelector('.btn-logout').addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem('user'); // On supprime les infos
+        window.location.href = 'home.html';
+    });
+</script>
+</html>
