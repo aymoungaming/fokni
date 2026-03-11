@@ -50,9 +50,17 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy Locally') {
             steps {
-                echo 'Ready to deploy to your free hosting platform!'
+                echo 'Deploying the new marketplace container locally...'
+                
+                // 1. Stop and remove the old version of the website (if it's running)
+                // The '|| true' tells Jenkins not to panic and fail if the container doesn't exist yet
+                sh 'docker rm -f my-marketplace-website || true'
+                
+                // 2. Start the brand new version we just built!
+                // REPLACE "3000:3000" with whatever port your Node.js backend uses
+                sh 'docker run -d -p 3000:3000 --name my-marketplace-website marketplace-app'
             }
         }
     }
