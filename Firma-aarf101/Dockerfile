@@ -1,40 +1,15 @@
-# Stage 1: Build Angular application
-FROM node:22-alpine AS builder
-
+# Stage 1: Build the Angular app
+FROM node:22 AS build
 WORKDIR /app
-
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
-RUN npm ci --prefer-offline --no-audit
-
-# Copy source code
+RUN npm install
 COPY . .
-
-# Build the application with SSR
 RUN npm run build
 
-# Stage 2: Runtime
-FROM node:22-alpine
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install production dependencies only
-RUN npm ci --prefer-offline --no-audit --omit=dev
-
-# Copy built application from builder stage
-COPY --from=builder /app/dist ./dist
-
-# Expose the port
-EXPOSE 4200
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:4200', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})" || exit 1
-
-# Run the application with SSR
-CMD ["node", "dist/my-app/server/server.mjs"]
+# Stage 2: Serve the app with Nginx
+FROM nginx:alpine
+# Copy the compiled files from the build stage to Nginx's public folder
+# Note: In Angular 17+, the build output might be in dist/my-app/browser
+COPY --from=build /app/dist/my-app/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
