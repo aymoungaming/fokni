@@ -59,7 +59,7 @@ pipeline {
                 
                 // 2. Start the brand new version we just built!
                 // Mapped to 8080 on your machine, pointing to 80 (Nginx) inside the container
-                sh 'docker run -d -p 8080:80 --name my-marketplace-website marketplace-app'
+                sh 'docker run -d -p 8081:80 --name my-marketplace-website marketplace-app'
             }
         }
     }
