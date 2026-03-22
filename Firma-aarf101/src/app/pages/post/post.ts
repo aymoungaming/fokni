@@ -26,7 +26,7 @@ export class PostComponent {
   imageFile: File | null = null;
   submitting = false;
 
-  private apiUrl = 'http://localhost:8080/api/products';
+  private apiUrl = 'http://localhost:3001/api/products';
 
   constructor(private router: Router, private auth: AuthService, private zone: NgZone) {}
 
