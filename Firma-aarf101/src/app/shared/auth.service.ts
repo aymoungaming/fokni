@@ -5,8 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // use relative path so dev proxy forwards to backend
-  private base = '/api/auth';
+  // point to Spring Boot backend
+  private base = 'http://localhost:8080/api/auth';
   private userSubject = new BehaviorSubject<any>(this.loadUser());
   public currentUser$: Observable<any> = this.userSubject.asObservable();
 

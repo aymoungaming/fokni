@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   quantity = signal(1);
   totalPrice = signal(0);
 
-  private apiUrl = '/api/products';
+  private apiUrl = 'http://localhost:8080/api/products';
   private routeSub: Subscription | null = null;
   private httpSub: Subscription | null = null;
 

@@ -329,7 +329,7 @@ export class MarketComponent implements OnInit, OnDestroy {
         { value: 'autre',    label: 'Autre' },
     ];
 
-    private api = '/api/products';
+    private api = 'http://localhost:8080/api/products';
     private loadSub: Subscription | null = null;
     private search$ = new Subject<string>();
     private searchSub: Subscription | null = null;
